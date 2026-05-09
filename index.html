@@ -394,7 +394,7 @@ function calculate(){
   var sleepScore=sleepHours>=7?'Đủ giấc 😇':sleepHours>=5?'Thiếu ngủ 😪':'Zombie mode 🧟';
   var deadlineScore=deadline===0?'DEADLINE HÔM NAY 💀':deadline<=2?'Còn '+deadline+'ng 😰':'Còn '+deadline+' ngày 😮‍💨';
   var milkteaScore=milktea<=3?'Lành mạnh 🥦':milktea<=7?'Bình thường 🧋':milktea<=14?'Nghiện nhẹ 😅':'Con ghiền nặng 💸';
-  var budgetScore=money<=1?'Cháy túi 😭':money<=3?'Cầm hơi 😰':money<=6?'Tạm đủ 😐':'Phú ông 🤑';
+  var budgetScore=money<=1?'Cháy túi 😭':money<=3?'Cầm hơi 😰':money<=6?'Tạm đủ 😐':'Phú bà 🤑';
   document.getElementById('statsGrid').innerHTML=
     '<div class="stat-item"><div class="stat-emoji">😴</div><div class="stat-label">Giấc ngủ</div><div class="stat-val">'+sleepScore+'</div></div>'
     +'<div class="stat-item"><div class="stat-emoji">⏳</div><div class="stat-label">Deadline</div><div class="stat-val">'+deadlineScore+'</div></div>'

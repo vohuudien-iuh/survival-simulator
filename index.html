@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tỷ Lệ Sống Sót Sinh Viên 💀</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--sur:#12121a;--sur2:#1a1a26;--bdr:#2a2a3d;
+  --red:#ff4444;--orange:#ff8c00;--yellow:#ffd700;--green:#00ff88;
+  --purple:#9d4edd;--pink:#ff6b9d;--blue:#00b4ff;
+  --txt:#f0f0ff;--dim:#8888aa;--muted:#444466;
+}
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap');
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+
+/* BG particles */
+.bg-stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle var(--d,3s) infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.8}}
+
+/* HEADER */
+.header{position:relative;z-index:1;text-align:center;padding:40px 20px 20px}
+.skull{font-size:4rem;animation:float 3s ease-in-out infinite;display:inline-block}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+h1{font-size:clamp(1.6rem,5vw,2.5rem);font-weight:800;line-height:1.2;margin:10px 0 8px}
+.title-main{background:linear-gradient(135deg,var(--red),var(--orange),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(255,100,0,.4))}
+.subtitle{font-size:.85rem;color:var(--dim);margin-bottom:4px}
+.warning-badge{
+  display:inline-block;margin-top:8px;
+  background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.4);
+  border-radius:6px;padding:4px 14px;font-size:.72rem;font-weight:700;
+  color:var(--red);letter-spacing:.05em;animation:pulse-red 2s infinite
+}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,68,68,.3)}50%{box-shadow:0 0 0 6px rgba(255,68,68,0)}}
+
+/* MAIN */
+.main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:16px 16px 60px}
+
+/* CARD */
+.card{background:var(--sur);border:1px solid var(--bdr);border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--purple),var(--blue))}
+.card-title{font-size:.78rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+
+/* INPUTS */
+.input-group{margin-bottom:14px}
+.input-label{font-size:.78rem;color:var(--txt);margin-bottom:7px;display:flex;align-items:center;gap:6px;font-weight:600}
+.hint{font-size:.67rem;color:var(--muted);font-weight:400}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:100px;outline:none;cursor:pointer;margin:6px 0}
+input[type=range].red{background:linear-gradient(90deg,var(--green),var(--yellow),var(--red))}
+input[type=range].blue{background:linear-gradient(90deg,var(--blue),var(--purple))}
+input[type=range].purple{background:linear-gradient(90deg,var(--purple),var(--pink))}
+input[type=range].orange{background:linear-gradient(90deg,var(--green),var(--orange))}
+input[type=range].pink{background:linear-gradient(90deg,var(--blue),var(--pink))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.4);cursor:pointer;border:2px solid var(--bdr)}
+.range-val{display:flex;justify-content:space-between;align-items:center;margin-top:2px}
+.range-display{font-size:1rem;font-weight:800;color:var(--yellow)}
+.range-labels{display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted)}
+
+/* CHECKBOXES */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.check-item{display:flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--bdr);border-radius:9px;padding:9px 11px;cursor:pointer;transition:all .2s;user-select:none}
+.check-item:hover{border-color:var(--purple)}
+.check-item.checked{background:rgba(157,78,221,.1);border-color:var(--purple)}
+.check-box{width:16px;height:16px;border:2px solid var(--bdr);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:.7rem}
+.check-item.checked .check-box{background:var(--purple);border-color:var(--purple)}
+.check-label{font-size:.75rem;color:var(--dim)}
+.check-item.checked .check-label{color:var(--txt)}
+
+/* CALC BUTTON */
+.calc-btn{
+  width:100%;padding:15px;margin-top:4px;
+  background:linear-gradient(135deg,#ff4444,#ff8c00);
+  border:none;border-radius:12px;color:#fff;font-family:inherit;
+  font-size:1rem;font-weight:800;cursor:pointer;
+  transition:all .2s;letter-spacing:.02em;
+  box-shadow:0 4px 20px rgba(255,68,68,.3)
+}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,68,68,.4)}
+.calc-btn:active{transform:scale(.98)}
+
+/* RESULT */
+.result{margin-top:16px;display:none}
+.result.show{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* HP BAR */
+.hp-section{background:var(--sur);border:1px solid var(--bdr);border-radius:16px;padding:18px;margin-bottom:14px}
+.hp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.hp-label{font-size:.8rem;font-weight:700;color:var(--dim)}
+.hp-pct{font-size:1.8rem;font-weight:800}
+.hp-bar-track{height:28px;background:var(--sur2);border-radius:100px;overflow:hidden;border:2px solid var(--bdr);position:relative}
+.hp-bar-fill{height:100%;border-radius:100px;transition:width 1s cubic-bezier(.4,0,.2,1);position:relative}
+.hp-bar-fill::after{content:'';position:absolute;top:4px;left:8px;right:8px;height:6px;background:rgba(255,255,255,.2);border-radius:100px}
+.hp-bar-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);mix-blend-mode:normal}
+.hp-status{text-align:center;margin-top:10px;font-size:1.2rem;font-weight:800}
+
+/* VERDICT */
+.verdict{background:var(--sur);border:2px solid;border-radius:16px;padding:18px;margin-bottom:14px;text-align:center}
+.verdict-emoji{font-size:3rem;margin-bottom:8px;display:block}
+.verdict-title{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.verdict-desc{font-size:.8rem;color:var(--dim);line-height:1.7}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat-item{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;padding:13px;text-align:center}
+.stat-emoji{font-size:1.4rem;margin-bottom:4px}
+.stat-label{font-size:.65rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.stat-val{font-size:.95rem;font-weight:800;margin-top:2px}
+
+/* TIPS */
+.tips{background:var(--sur);border:1px solid var(--bdr);border-radius:16px;padding:16px}
+.tips-title{font-size:.78rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.tip-item{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:.78rem;color:var(--dim);line-height:1.5}
+.tip-item:last-child{border-bottom:none}
+.tip-emoji{flex-shrink:0;font-size:1rem}
+
+/* Share */
+.share-btn{
+  width:100%;padding:12px;margin-top:12px;
+  background:transparent;border:1px solid var(--bdr);
+  border-radius:10px;color:var(--dim);font-family:inherit;
+  font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s
+}
+.share-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.68rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- Background stars -->
+<div class="bg-stars" id="stars"></div>
+
+<div class="header">
+  <div class="skull">💀</div>
+  <h1><span class="title-main">Tỷ Lệ Sống Sót</span><br>Sinh Viên™</h1>
+  <p class="subtitle">Bộ máy tính toán định mệnh học kỳ của bạn</p>
+  <div class="warning-badge">⚠️ KẾT QUẢ CÓ THỂ GÂY CHẤN THƯƠNG TÂM LÝ</div>
+</div>
+
+<div class="main">
+
+  <!-- SECTION 1: Giấc ngủ -->
+  <div class="card">
+    <div class="card-title">😴 Tình Trạng Giấc Ngủ</div>
+
+    <div class="input-group">
+      <div class="input-label">🌙 Bạn thường ngủ lúc mấy giờ? <span class="hint" id="sleepTimeDisplay">12:00 AM</span></div>
+      <input type="range" class="red" id="sleepTime" min="21" max="32" value="24" oninput="updateDisplay()">
+      <div class="range-labels"><span>9 PM 😇</span><span>4 AM 🧟</span></div>
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">⏰ Ngủ bao nhiêu tiếng? <span class="hint" id="sleepHoursDisplay">6 tiếng</span></div>
+      <input type="range" class="blue" id="sleepHours" min="1" max="12" value="6" oninput="updateDisplay()">
+      <div class="range-labels"><span>1h ☠️</span><span>12h 🐷</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Học hành -->
+  <div class="card">
+    <div class="card-title">📚 Tình Trạng Học Hành</div>
+
+    <div class="input-group">
+      <div class="input-label">⏳ Deadline còn bao lâu? <span class="hint" id="deadlineDisplay">3 ngày</span></div>
+      <input type="range" class="red" id="deadline" min="0" max="14" value="3" oninput="updateDisplay()">
+      <div class="range-labels"><span>Hôm nay 💀</span><span>2 tuần 😌</span></div>
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">📖 Số tín chỉ kỳ này? <span class="hint" id="creditsDisplay">15 tín</span></div>
+      <input type="range" class="orange" id="credits" min="5" max="30" value="15" oninput="updateDisplay()">
+      <div class="range-labels"><span>5 tín 😎</span><span>30 tín 🤡</span></div>
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">🎯 % bài đã học so với thi? <span class="hint" id="studiedDisplay">30%</span></div>
+      <input type="range" class="blue" id="studied" min="0" max="100" value="30" oninput="updateDisplay()">
+      <div class="range-labels"><span>0% 🙈</span><span>100% 🤓</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Lifestyle -->
+  <div class="card">
+    <div class="card-title">🧋 Lifestyle & Dinh Dưỡng</div>
+
+    <div class="input-group">
+      <div class="input-label">🧋 Trà sữa / tuần? <span class="hint" id="milkteaDisplay">3 ly</span></div>
+      <input type="range" class="pink" id="milktea" min="0" max="21" value="3" oninput="updateDisplay()">
+      <div class="range-labels"><span>0 ly 🥦</span><span>21 ly 🥛</span></div>
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">☕ Cà phê / ngày? <span class="hint" id="coffeeDisplay">1 ly</span></div>
+      <input type="range" class="orange" id="coffee" min="0" max="8" value="1" oninput="updateDisplay()">
+      <div class="range-labels"><span>0 ly 🌿</span><span>8 ly ⚡</span></div>
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">💸 Tiền còn lại cuối tháng? <span class="hint" id="moneyDisplay">200k</span></div>
+      <input type="range" class="blue" id="money" min="0" max="10" value="2" oninput="updateDisplay()">
+      <div class="range-labels"><span>0đ 😭</span><span>1 triệu+ 🤑</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Checkboxes -->
+  <div class="card">
+    <div class="card-title">☑️ Điều Tra Thêm — Tick vào những gì đúng với bạn</div>
+    <div class="check-grid" id="checkGrid">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">
+    💀 TÍNH TỶ LỆ SỐNG SÓT
+  </button>
+
+  <!-- RESULT -->
+  <div class="result" id="result">
+
+    <!-- HP Bar -->
+    <div class="hp-section">
+      <div class="hp-header">
+        <div class="hp-label">❤️ THANH MÁU SINH VIÊN</div>
+        <div class="hp-pct" id="hpPct" style="color:var(--red)">0%</div>
+      </div>
+      <div class="hp-bar-track">
+        <div class="hp-bar-fill" id="hpBar" style="width:0%"></div>
+        <div class="hp-bar-text" id="hpBarText">Đang tính...</div>
+      </div>
+      <div class="hp-status" id="hpStatus"></div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="verdict" id="verdict">
+      <span class="verdict-emoji" id="verdictEmoji"></span>
+      <div class="verdict-title" id="verdictTitle"></div>
+      <div class="verdict-desc" id="verdictDesc"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <!-- Tips -->
+    <div class="tips">
+      <div class="tips-title">🩺 Chẩn Đoán Từ Bác Sĩ Deadline</div>
+      <div id="tipsList"></div>
+    </div>
+
+    <button class="share-btn" onclick="shareResult()">📤 Chia sẻ kết quả với bạn bè (để doạ nhau)</button>
+  </div>
+
+</div>
+
+<footer>💀 Không chịu trách nhiệm nếu bạn khóc sau khi xem kết quả ·</footer>
+
+<script>
+// Generate stars
+var starsEl = document.getElementById('stars');
+for(var i=0;i<60;i++){
+  var s=document.createElement('div');s.className='star';
+  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+  s.style.setProperty('--d',(2+Math.random()*4)+'s');
+  s.style.setProperty('--delay',(-Math.random()*4)+'s');
+  s.style.opacity=Math.random()*.5;
+  starsEl.appendChild(s);
+}
+
+// Checkbox items
+var checkItems = [
+  {id:'c1', emoji:'🎮', label:'Chơi game > 3h/ngày'},
+  {id:'c2', emoji:'📱', label:'Lướt TikTok trước ngủ'},
+  {id:'c3', emoji:'🍜', label:'Bỏ bữa vì lười'},
+  {id:'c4', emoji:'🏃', label:'Chưa tập thể dục cả kỳ'},
+  {id:'c5', emoji:'😭', label:'Đã khóc vì deadline'},
+  {id:'c6', emoji:'🤥', label:'Nói "học sau" từ 2 tuần trước'},
+  {id:'c7', emoji:'🛏️', label:'Học trên giường rồi ngủ quên'},
+  {id:'c8', emoji:'📋', label:'Chép bài bạn > tự học'},
+  {id:'c9', emoji:'🌙', label:'Ngủ ngày nhiều hơn ngủ đêm'},
+  {id:'c10',emoji:'🍕', label:'Ăn mì gói > 3 lần/tuần'},
+  {id:'c11',emoji:'📵', label:'Tắt thông báo nhóm lớp'},
+  {id:'c12',emoji:'☁️', label:'Học online nhưng mở Netflix'},
+];
+
+var checked = {};
+var grid = document.getElementById('checkGrid');
+checkItems.forEach(function(item){
+  checked[item.id]=false;
+  var div=document.createElement('div');
+  div.className='check-item';div.id='ci-'+item.id;
+  div.innerHTML='<div class="check-box" id="cb-'+item.id+'"></div><div class="check-label">'+item.emoji+' '+item.label+'</div>';
+  div.onclick=function(){
+    checked[item.id]=!checked[item.id];
+    div.classList.toggle('checked',checked[item.id]);
+    document.getElementById('cb-'+item.id).textContent=checked[item.id]?'✓':'';
+  };
+  grid.appendChild(div);
+});
+
+function updateDisplay(){
+  var h=parseInt(document.getElementById('sleepTime').value);
+  var label=h<24?((h-12)+' PM'):h===24?'12 AM':(h-24+' AM');
+  document.getElementById('sleepTimeDisplay').textContent=label;
+  document.getElementById('sleepHoursDisplay').textContent=document.getElementById('sleepHours').value+' tiếng';
+  var dl=parseInt(document.getElementById('deadline').value);
+  document.getElementById('deadlineDisplay').textContent=dl===0?'Hôm nay 💀':dl+' ngày';
+  document.getElementById('creditsDisplay').textContent=document.getElementById('credits').value+' tín';
+  document.getElementById('studiedDisplay').textContent=document.getElementById('studied').value+'%';
+  document.getElementById('milkteaDisplay').textContent=document.getElementById('milktea').value+' ly';
+  document.getElementById('coffeeDisplay').textContent=document.getElementById('coffee').value+' ly';
+  var m=parseInt(document.getElementById('money').value);
+  var mLabel=['0đ 😭','50k 😰','100k 😟','150k 😐','200k 😐','300k 🙂','400k 🙂','500k 😊','600k 😊','700k 😄','800k 😄','1M+ 🤑'];
+  document.getElementById('moneyDisplay').textContent=mLabel[m]||m+'00k';
+}
+
+function calculate(){
+  var sleepTime=parseInt(document.getElementById('sleepTime').value);
+  var sleepHours=parseInt(document.getElementById('sleepHours').value);
+  var deadline=parseInt(document.getElementById('deadline').value);
+  var credits=parseInt(document.getElementById('credits').value);
+  var studied=parseInt(document.getElementById('studied').value);
+  var milktea=parseInt(document.getElementById('milktea').value);
+  var coffee=parseInt(document.getElementById('coffee').value);
+  var money=parseInt(document.getElementById('money').value);
+  var checkedCount=Object.values(checked).filter(Boolean).length;
+
+  var hp=100;
+
+  // Sleep time penalty
+  if(sleepTime>=30) hp-=25; else if(sleepTime>=28) hp-=18; else if(sleepTime>=26) hp-=12; else if(sleepTime>=24) hp-=6;
+  // Sleep hours
+  if(sleepHours<=3) hp-=25; else if(sleepHours<=5) hp-=12; else if(sleepHours>=10) hp-=5;
+  // Deadline
+  if(deadline===0) hp-=30; else if(deadline<=1) hp-=22; else if(deadline<=3) hp-=12; else if(deadline<=5) hp-=5;
+  // Credits
+  if(credits>=25) hp-=20; else if(credits>=20) hp-=12; else if(credits>=18) hp-=6;
+  // Studied
+  hp+=(studied-50)*0.2;
+  // Milktea (moderate is okay, too much is bad)
+  if(milktea>14) hp-=15; else if(milktea>7) hp-=8; else if(milktea>=3&&milktea<=7) hp+=2;
+  // Coffee
+  if(coffee>=6) hp-=18; else if(coffee>=4) hp-=10; else if(coffee>=2) hp-=4; else if(coffee===0) hp+=3;
+  // Money
+  hp+=money*2;
+  // Checkboxes
+  hp-=checkedCount*4;
+
+  hp=Math.max(1,Math.min(100,Math.round(hp)));
+
+  // Show result
+  var resultEl=document.getElementById('result');
+  resultEl.style.display='block';
+  resultEl.classList.add('show');
+
+  // HP bar color
+  var color=hp>=70?'var(--green)':hp>=40?'var(--yellow)':hp>=20?'var(--orange)':'var(--red)';
+  var barEl=document.getElementById('hpBar');
+  barEl.style.background='linear-gradient(90deg,'+color+','+color+'99)';
+  barEl.style.width=hp+'%';
+  barEl.style.boxShadow='0 0 12px '+color;
+  document.getElementById('hpPct').textContent=hp+'%';
+  document.getElementById('hpPct').style.color=color;
+
+  var barTexts=['☠️ GẦN CHẾT RỒI','😵 NGUY HIỂM','😰 CẦN CẤP CỨU','😐 Tạm sống','🙂 Ổn áp','💪 Khoẻ re','🦾 SIÊU NHÂN'];
+  var barIdx=hp<10?0:hp<25?1:hp<40?2:hp<55?3:hp<70?4:hp<85?5:6;
+  document.getElementById('hpBarText').textContent=barTexts[barIdx];
+
+  var statusTexts=['💀 Gọi xe cứu thương đi','☠️ Viết di chúc chưa?','🚨 Báo động đỏ','😶 Đang thở','😮‍💨 Còn chịu được','😎 Nhìn được đây','🏆 Sinh viên gương mẫu'];
+  document.getElementById('hpStatus').textContent=statusTexts[barIdx];
+  document.getElementById('hpStatus').style.color=color;
+
+  // Verdict
+  var verdicts=[
+    {emoji:'☠️',title:'ĐÃ CHẾT VỀ MẶT TINH THẦN',desc:'Bạn đang hoạt động bằng pure suffering và caffeine. Hệ thống sinh học đã shutdown, chỉ còn deadline-driven reflex. Gia đình đang lo lắng.',color:'var(--red)',border:'var(--red)'},
+    {emoji:'🧟',title:'ZOMBIE SINH VIÊN',desc:'Bạn đang tồn tại chứ không phải sống. Mắt thâm, tóc rối, não đặt chế độ autopilot. Đồng bào nhìn bạn với ánh mắt thương hại.',color:'var(--orange)',border:'var(--orange)'},
+    {emoji:'😵‍💫',title:'CẤP CỨU KHẨN CẤP',desc:'Tỷ lệ qua môn đang ở mức "cầu trời khấn phật". Giáo viên nhìn bạn với ánh mắt có gì đó... tiếc nuối.',color:'var(--orange)',border:'var(--orange)'},
+    {emoji:'😐',title:'SINH VIÊN TRUNG BÌNH CỦA BỘ',desc:'Không tệ, không tốt. Bạn đang ở trạng thái Schrödinger: vừa học vừa không học. Điểm số là ẩn số của vũ trụ.',color:'var(--yellow)',border:'var(--yellow)'},
+    {emoji:'🙂',title:'CÒN HY VỌNG',desc:'Tỷ lệ sống sót trên mức báo động. Nếu ngủ thêm và bỏ bớt TikTok, bạn có thể thoát khỏi kỳ thi này với đầu còn nguyên.',color:'var(--yellow)',border:'var(--yellow)'},
+    {emoji:'💪',title:'SINH VIÊN CHÂN CHÍNH',desc:'Nhìn ổn đấy! Bạn là hi vọng của cha mẹ, niềm tự hào của xóm giềng. Tiếp tục duy trì và đừng để bạn bè kéo xuống hố.',color:'var(--green)',border:'var(--green)'},
+    {emoji:'🏆',title:'AI CHO BẠN VÀO LỚP NÀY VẬY?',desc:'Bạn đang sống như một con người thực sự. Điều này đáng ngờ. Bạn có chắc mình đang học đại học không? Kiểm tra lại đi.',color:'var(--blue)',border:'var(--blue)'}
+  ];
+  var vi=hp<10?0:hp<25?1:hp<40?2:hp<55?3:hp<70?4:hp<85?5:6;
+  var v=verdicts[vi];
+  var vEl=document.getElementById('verdict');
+  vEl.style.borderColor=v.border;vEl.style.background='rgba(0,0,0,.3)';
+  document.getElementById('verdictEmoji').textContent=v.emoji;
+  document.getElementById('verdictTitle').textContent=v.title;
+  document.getElementById('verdictTitle').style.color=v.color;
+  document.getElementById('verdictDesc').textContent=v.desc;
+
+  // Stats
+  var sleepScore=sleepHours>=7?'Đủ giấc 😇':sleepHours>=5?'Thiếu ngủ 😪':'Zombie mode 🧟';
+  var deadlineScore=deadline===0?'DEADLINE HÔM NAY 💀':deadline<=2?'Còn '+deadline+'ng 😰':'Còn '+deadline+' ngày 😮‍💨';
+  var milkteaScore=milktea<=3?'Lành mạnh 🥦':milktea<=7?'Bình thường 🧋':milktea<=14?'Nghiện nhẹ 😅':'Con ghiền nặng 💸';
+  var budgetScore=money<=1?'Cháy túi 😭':money<=3?'Cầm hơi 😰':money<=6?'Tạm đủ 😐':'Phú ông 🤑';
+  document.getElementById('statsGrid').innerHTML=
+    '<div class="stat-item"><div class="stat-emoji">😴</div><div class="stat-label">Giấc ngủ</div><div class="stat-val">'+sleepScore+'</div></div>'
+    +'<div class="stat-item"><div class="stat-emoji">⏳</div><div class="stat-label">Deadline</div><div class="stat-val">'+deadlineScore+'</div></div>'
+    +'<div class="stat-item"><div class="stat-emoji">🧋</div><div class="stat-label">Trà sữa</div><div class="stat-val">'+milkteaScore+'</div></div>'
+    +'<div class="stat-item"><div class="stat-emoji">💸</div><div class="stat-label">Ngân sách</div><div class="stat-val">'+budgetScore+'</div></div>';
+
+  // Tips
+  var tips=[];
+  if(sleepHours<6) tips.push({e:'😴',t:'Ngủ thêm đi! Não bộ cần ít nhất 7 tiếng để không biến thành bắp cải.'});
+  if(sleepTime>=28) tips.push({e:'🌙',t:'Ngủ lúc '+(sleepTime-24)+' AM là tự tra tấn bản thân. Cortisol đang tăng vọt đó.'});
+  if(deadline<=2) tips.push({e:'🔥',t:'Deadline gần rồi. Tắt Netflix, đặt điện thoại xuống. NGAY BÂY GIỜ.'});
+  if(coffee>=4) tips.push({e:'☕',t:''+coffee+' ly cà phê/ngày = tim đang chạy ở chế độ formula 1. Giảm xuống đi.'});
+  if(milktea>=10) tips.push({e:'🧋',t:milktea+' ly trà sữa/tuần. Bạn đang donate tiền học phí cho Gong Cha đấy.'});
+  if(studied<30) tips.push({e:'📚',t:'Chỉ học '+studied+'% rồi. Còn '+(100-studied)+'% nữa. Nhìn lịch thi lại đi.'});
+  if(money<=1) tips.push({e:'💸',t:'Tiền gần hết rồi. Gọi cho ba mẹ hoặc ăn mì gói thêm 2 tuần nữa nhé.'});
+  if(checked['c2']) tips.push({e:'📱',t:'TikTok trước ngủ = não bộ vẫn còn hoạt động khi bạn muốn ngủ. Cai nghiện đi.'});
+  if(checked['c7']) tips.push({e:'🛏️',t:'Học trên giường thì sẽ ngủ quên. Đây là định luật bất biến của vũ trụ.'});
+  if(checked['c12']) tips.push({e:'☁️',t:'Mở Netflix khi học online = bạn trả học phí để xem phim. Tiết kiệm tiền hơn là mua Netflix thôi.'});
+  if(credits>=22) tips.push({e:'📋',t:credits+' tín chỉ? Ai cho bạn đăng nhiều vậy. Semester này bạn tự chọn khổ rồi đó.'});
+  if(tips.length===0) tips.push({e:'🏆',t:'Bạn đang sống rất tốt! Dạy lại bạn bè đi, tụi nó đang cần được cứu.'});
+
+  document.getElementById('tipsList').innerHTML=tips.map(function(t){
+    return '<div class="tip-item"><span class="tip-emoji">'+t.e+'</span><span>'+t.t+'</span></div>';
+  }).join('');
+
+  resultEl.scrollIntoView({behavior:'smooth',block:'start'});
+  window._lastHP=hp;
+}
+
+function shareResult(){
+  var hp=window._lastHP||0;
+  var text='💀 Tỷ lệ sống sót của tao cuối kỳ này: '+hp+'%\nMày bao nhiêu? → [link]\n#SinhVienVietNam #TyLeSongSot';
+  if(navigator.share){navigator.share({text:text});}
+  else{navigator.clipboard&&navigator.clipboard.writeText(text);alert('Đã copy! Paste vào đâu tùy mày 😄');}
+}
+
+updateDisplay();
+</script>
+</body>
+</html>
